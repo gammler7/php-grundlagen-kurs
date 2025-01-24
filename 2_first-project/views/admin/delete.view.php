@@ -12,9 +12,9 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <h2><?= $data['game']->game ?>, jetzt löschen?</h2>
+      <h2><?= $data['game']->name ?>, jetzt löschen?</h2>
       <form action="" method="POST">
-        <input type="hidden" name="org_name" value="<?= $data['game']->game ?>">
+        <input type="hidden" name="id" value="<?= $data['game']->id ?>">
         <div class="mb-3">
           <button type="submit" class="btn btn-primary">Ja, jetzt löschen</button>
         </div>

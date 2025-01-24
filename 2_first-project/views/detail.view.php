@@ -20,7 +20,7 @@
         </thead>
         <tbody>
           <tr>
-            <td><?= $data['game']->game ?></td>
+            <td><?= $data['game']->name ?></td>
             <td><?= $data['game']->genre ?></td>
             <td><?= $data['game']->description ?></td>
           </tr>

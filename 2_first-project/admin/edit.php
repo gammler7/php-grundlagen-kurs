@@ -8,16 +8,16 @@ ensure_user_is_authenticated();
 $status = [];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $org_game_name = sanitize('org_name', INPUT_POST);
+  $game_id = sanitize('id', INPUT_POST);
   $game_name = sanitize('name', INPUT_POST);
   $game_genre = sanitize('genre', INPUT_POST);
   $game_description = sanitize('description', INPUT_POST);
   
-  if(!$org_game_name || !$game_name || !$game_genre || !$game_description) {
+  if(!$game_id || !$game_name || !$game_genre || !$game_description) {
     array_push($status, 'Angegebene Werte sind ungültig!');
   }
   else {
-    edit_game($org_game_name, $game_name, $game_genre, $game_description);
+    Data::edit_game($game_id, $game_name, $game_genre, $game_description);
     redirect('index.php');
   }
 }
@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
     redirect("index.php");
   }
 
-  $one_game = get_game($game);
+  $one_game = Data::get_game($game);
 
   if(!$one_game) {
     view('404');

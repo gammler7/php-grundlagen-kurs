@@ -7,7 +7,7 @@ if(!$game) {
   redirect("index.php");
 }
 
-$one_game = get_game($game);
+$one_game = Data::get_game($game);
 
 if(!$one_game) {
   view('404');

@@ -3,11 +3,13 @@ require("app/app.php");
 
 $search_game = sanitize('search_game', INPUT_GET);
 
+//$data = new FileDataProvider(CONFIG['filename']);
+
 if($search_game) {
-  $list_data = search_games($search_game);
+  $list_data = Data::search_games($search_game);
 }
 else {
-  $list_data = get_all_games();
+  $list_data = Data::get_all_games();
 }
 
 $view_data = [

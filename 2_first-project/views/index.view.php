@@ -24,7 +24,7 @@
         <tbody>
           <? foreach($data['game_list'] as $game): ?>
             <tr>
-              <td><a href="detail.php?game=<?= $game->game ?>"><?= $game->game ?></a></td>
+              <td><a href="detail.php?game=<?= $game->id ?>"><?= $game->name ?></a></td>
               <td><?= $game->genre ?></td>
               <td><?= $game->description ?></td>
             </tr> 

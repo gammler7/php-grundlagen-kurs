@@ -8,10 +8,10 @@ ensure_user_is_authenticated();
 $search_game = sanitize('search_game', INPUT_GET);
 
 if($search_game) {
-  $list_data = search_games($search_game);
+  $list_data = Data::search_games($search_game);
 }
 else {
-  $list_data = get_all_games();
+  $list_data = Data::get_all_games();
 }
 
 $view_data = [

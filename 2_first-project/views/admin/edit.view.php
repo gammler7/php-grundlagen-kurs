@@ -13,10 +13,10 @@
   <div class="row">
     <div class="col-12">
       <form action="" method="POST">
-        <input type="hidden" name="org_name" value="<?= $data['game']->game ?>">
+        <input type="hidden" name="id" value="<?= $data['game']->id ?>">
         <div class="mb-3">
           <label class="form-label" for="name">Name:</label>
-          <input class="form-control" type="text" name="name" id="name" value="<?= $data['game']->game ?>">
+          <input class="form-control" type="text" name="name" id="name" value="<?= $data['game']->name ?>">
         </div>
         <div class="mb-3">
           <label class="form-label" for="genre">Genre:</label>
