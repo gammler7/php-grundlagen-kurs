@@ -13,85 +13,78 @@ class MySqlDataProvider extends DataProvider {
   }
 
   public function get_game($game) {
-    $db = $this->db_connect();
-    if($db === null) return;
+    $data = $this->db_operation(
+      "SELECT * FROM games WHERE id = :id",
+      [
+        ':id' => $game
+      ]
+    );
 
-    $sql = "SELECT * FROM games WHERE id = :id";
-    $statement = $db->prepare($sql);
-    $statement->execute([
-      ':id' => $game
-    ]);
-
-    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-    foreach($data as $i => $row) {
-      $data[$i] = new Game(...$row);
-    }
-
-    return $data[0];
+    return $data[0] ?? null;
   }
   
   public function search_games($search) {
-    $db = $this->db_connect();
-    if($db === null) return [];
-
-    $sql = "SELECT * FROM games WHERE name LIKE :search OR genre LIKE :search OR description LIKE :search";
-    $statement = $db->prepare($sql);
-    $statement->execute([
-      ':search' => "%$search%"
-    ]);
-
-    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-    foreach($data as $i => $row) {
-      $data[$i] = new Game(...$row);
-    }
+    $data = $this->db_operation(
+      "SELECT * FROM games WHERE name LIKE :search OR genre LIKE :search OR description LIKE :search",
+      [
+        ':search' => "%$search%"
+      ]
+    );
 
     return $data;
   }
   
   public function add_game($name, $genre, $description) {
-    $db = $this->db_connect();
-    if($db === null) return;
-
-    $sql = "INSERT INTO games (name, genre, description) VALUES (:name, :genre, :description)";
-    $statement = $db->prepare($sql);
-    $statement->execute([
-      ':name' => $name,
-      ':genre' => $genre,
-      ':description' => $description
-    ]);
+    $this->db_operation(
+      "INSERT INTO games (name, genre, description) VALUES (:name, :genre, :description)",
+      [
+        ':name' => $name,
+        ':genre' => $genre,
+        ':description' => $description
+      ]
+    );
   }
   
   public function edit_game($id, $name, $genre, $description) {
-    $db = $this->db_connect();
-    if($db === null) return;
-
-    $sql = "UPDATE games SET name = :name, genre = :genre, description = :description WHERE id = :id";
-    $statement = $db->prepare($sql);
-    $statement->execute([
-      ':id' => $id,
-      ':name' => $name,
-      ':genre' => $genre,
-      ':description' => $description
-    ]);
+    $this->db_operation(
+      "UPDATE games SET name = :name, genre = :genre, description = :description WHERE id = :id",
+      [
+        ':id' => $id,
+        ':name' => $name,
+        ':genre' => $genre,
+        ':description' => $description
+      ]
+    );
   }
   
   public function delete_game($id) {
-    $db = $this->db_connect();
-    if($db === null) return;
-
-    $sql = "DELETE FROM games WHERE id = :id";
-    $statement = $db->prepare($sql);
-    $statement->execute([
-      ':id' => $id
-    ]);
+    $this->db_operation(
+      "DELETE FROM games WHERE id = :id",
+      [
+        ':id' => $id
+      ]
+    );
   }
 
   public function get_all_games() {
+    $data = $this->db_operation(
+      "SELECT * FROM games"
+    );
+
+    return $data;
+  }
+
+  private function db_operation($sql, $params = null) {
     $db = $this->db_connect();
     if($db === null) return [];
 
-    $sql = "SELECT * FROM games";
-    $statement = $db->query($sql);
+    if(!$params) {
+      $statement = $db->query($sql);
+    }
+    else {
+      $statement = $db->prepare($sql);
+      $statement->execute($params);
+    }
 
     $data = $statement->fetchAll(PDO::FETCH_ASSOC);
     foreach($data as $i => $row) {
